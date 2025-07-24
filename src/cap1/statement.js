@@ -1,12 +1,12 @@
 
-export default function statment(invoice, plays) {
-    const statmentData = {};
-    statmentData.customer = invoice.customer;
-    statmentData.performances = invoice.performances.map(enrichPerformance);
-    statmentData.totalAmount = totalAmount(statmentData );
-    statmentData.totalVolumeCredits = totalVolumeCredits(statmentData);
-    return renderPlainText(statmentData, plays);
 
+function createStatementData(invoice, plays) {
+    const statementData = {};
+    statementData.customer = invoice.customer;
+    statementData.performances = invoice.performances.map(enrichPerformance);
+    statementData.totalAmount = totalAmount(statementData);
+    statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+    return statementData;
     function enrichPerformance(aPerformance) {
         const result = Object.assign({}, aPerformance);
         result.play = playFor(result);
@@ -51,6 +51,10 @@ export default function statment(invoice, plays) {
     function totalVolumeCredits(data) {
         return data.performances.reduce((total, perf) => total + perf.volumeCredits, 0);
     }
+}
+
+export default function statment(invoice, plays) {
+   return renderPlainText(createStatementData(invoice, plays), plays);
 }   
 
 function renderPlainText(data, plays) {
@@ -62,7 +66,6 @@ function renderPlainText(data, plays) {
     result += `You earned ${data.totalVolumeCredits} credits\n`;
     return result;
 
-    
     function usd(aNumber) {
         return new Intl.NumberFormat("en-US",
             {
