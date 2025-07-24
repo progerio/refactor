@@ -9,18 +9,21 @@ export default function statment(invoice, plays) {
         minimumFractionDigits: 2
     }).format;
 
+    function playFor(aPerformance){ 
+        return plays[aPerformance.playID];
+    }
     for (let perf of invoice.performances) {
-        const play = plays[perf.playID];
-        let thisAmount = amountFor(perf, play);
+        // const play = playFor(perf); // obtém a peça para a performance
+        let thisAmount = amountFor(perf, playFor(perf));
         
         // soma creditos por volume
         volumeCredits += Math.max(perf.audience - 30, 0);
         // soma um credito extra para cada dez espectadores de comedia
-        if (play.type === "comedy") {
+        if (playFor(perf).type === "comedy") {
             volumeCredits += Math.floor(perf.audience / 5);
         } 
         // exibe a linha para esta requisição
-        result += `  ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
+        result += `  ${playFor(perf).name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
         totalAmount += thisAmount;
     }
     
@@ -51,3 +54,5 @@ function amountFor(aPerformace, play) {
         }
     return result;
 }
+
+

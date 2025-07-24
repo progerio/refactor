@@ -23,6 +23,6 @@ describe("Statement", () => {
 
         expect(statment(emptyInvoice, plays)).toBe(expectedOutput);
     });
-    
+   
 });
 
