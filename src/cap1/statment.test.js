@@ -15,4 +15,14 @@ describe("Statement", () => {
 
         expect(statment(invoice, plays)).toBe(expectedOutput);
     });
+    it("should handle empty invoices", () => {
+        const emptyInvoice = { customer: "EmptyCo", performances: [] };
+        const expectedOutput = `Statement for EmptyCo\n` +
+            `Amount owed is $0.00\n` +
+            `You earned 0 credits\n`;
+
+        expect(statment(emptyInvoice, plays)).toBe(expectedOutput);
+    });
+    
 });
+
