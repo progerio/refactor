@@ -1,4 +1,6 @@
 
+import  plays  from "./plays.json";
+
 export default function statment(invoice, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
@@ -9,9 +11,6 @@ export default function statment(invoice, plays) {
         minimumFractionDigits: 2
     }).format;
 
-    function playFor(aPerformance){ 
-        return plays[aPerformance.playID];
-    }
     for (let perf of invoice.performances) {
         // const play = playFor(perf); // obtém a peça para a performance
         let thisAmount = amountFor(perf, playFor(perf));
@@ -23,8 +22,8 @@ export default function statment(invoice, plays) {
             volumeCredits += Math.floor(perf.audience / 5);
         } 
         // exibe a linha para esta requisição
-        result += `  ${playFor(perf).name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`;
-        totalAmount += thisAmount;
+        result += `  ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience} seats)\n`;
+        totalAmount += amountFor(perf);
     }
     
     result += `Amount owed is ${format(totalAmount / 100)}\n`;
@@ -33,9 +32,9 @@ export default function statment(invoice, plays) {
     return result;
 }
 
-function amountFor(aPerformace, play) { 
+function amountFor(aPerformace) { 
     let result = 0;
-    switch (play.type) { 
+    switch (playFor(aPerformace).type) { 
             case "tragedy":
                 result = 40000;
                 if (aPerformace.audience > 30) {
@@ -50,9 +49,12 @@ function amountFor(aPerformace, play) {
                 result += 300 * aPerformace.audience;
                 break;
             default:
-                throw new Error(`Unknown type: ${play.type}`);
+                throw new Error(`Unknown type: ${playFor(aPerformace).type}`);
         }
     return result;
 }
 
+function playFor(aPerformance){ 
+    return plays[aPerformance.playID];
+}
 
