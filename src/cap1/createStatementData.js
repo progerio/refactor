@@ -6,6 +6,7 @@ export default function createStatementData(invoice, plays) {
     statementData.totalAmount = totalAmount(statementData);
     statementData.totalVolumeCredits = totalVolumeCredits(statementData);
     return statementData;
+
     function enrichPerformance(aPerformance) {
         const result = Object.assign({}, aPerformance);
         result.play = playFor(result);
@@ -13,6 +14,7 @@ export default function createStatementData(invoice, plays) {
         result.volumeCredits = volumeCreditsFor(result);
         return result;
     }
+    
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
     }
@@ -43,8 +45,8 @@ export default function createStatementData(invoice, plays) {
         if ("comedy" === aPerformance.play.type) result += Math.floor(aPerformance.audience / 5);
         return result;
     }
-    
-    function totalAmount(data ) {
+
+    function totalAmount(data) {
         return data.performances.reduce((total, perf) => total + perf.amount, 0);
     }
     function totalVolumeCredits(data) {

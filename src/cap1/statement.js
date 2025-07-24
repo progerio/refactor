@@ -22,14 +22,14 @@ function renderPlainText(data) {
                 minimumFractionDigits: 2
             }).format(aNumber / 100);
     }
-} 
+}
 
 
 function htmlStatement(invoice, plays) {
     return renderHtml(createStatementData(invoice, plays));
-}  
+}
 
-function renderHtml(data) { 
+function renderHtml(data) {
     let result = `<h1>Statement for ${data.customer}</h1>\n`;
     result += "<table>\n";
     result += "<tr><th>play</th><th>seats</th><th>amount</th></tr>\n";
@@ -41,13 +41,13 @@ function renderHtml(data) {
     result += `<p>Amount owed is <em>${usd(data.totalAmount)}</em></p>\n`;
     result += `<p>You earned <em>${data.totalVolumeCredits}</em> credits</p>\n`;
     return result;
-        
-    function usd(aNumber) {
-        return new Intl.NumberFormat("en-US",
-            {
-                style: "currency",
-                currency: "USD",
-                minimumFractionDigits: 2
-            }).format(aNumber / 100);
-    } 
-}  
+}
+
+function usd(aNumber) {
+    return new Intl.NumberFormat("en-US",
+        {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2
+        }).format(aNumber / 100);
+}
